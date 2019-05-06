@@ -5,11 +5,17 @@ export function createStore (reducer, initialState) {
     const getState = () => state;
 
     const dispatch = action => {
-        state = reducer(state,  action);
+        state = reducer(state, action);
         callbacks.forEach(cb => cb());
     };
 
     const subscribe = callback => {
         callbacks.push(callback);
+    }
+
+    return {
+        getState: getState,
+        dispatch: dispatch,
+        subscribe: subscribe
     }
 }
