@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { addTodo } from '../actions';
 
 import Button from './Button';
 
 class Form extends React.Component {
     constructor(props) {
         super(props);
+
+        this.store = this.props.store;
 
         this.state = {
             title: ''
@@ -21,7 +24,7 @@ class Form extends React.Component {
         const title = this.state.title;
 
         if (title) {
-            this.props.onAdd(title);
+            this.store.dispatch(addTodo(title));
             this.setState({ title: '' });
         }
     }
