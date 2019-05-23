@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 class HeaderContainer extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
 
-        this.store = this.props.store;
+        this.store = this.context.store;
     }
 
     componentDidMount() {
@@ -21,6 +22,10 @@ class HeaderContainer extends React.Component {
 
         return <Header todos={todos} />
     }
+}
+
+HeaderContainer.contextTypes = {
+    store: PropTypes.object
 }
 
 export default HeaderContainer;
