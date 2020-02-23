@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const ADD_TODO = 'ADD_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const TOGGLE_TODO = 'TOGGLE_TODO';
@@ -19,8 +21,8 @@ export function getTodos() {
             type: REQUEST_TODOS
         });
     
-        return fetch('api/todos')
-            .then(response => response.json())
+        return axios.get('api/todos')
+            .then(response => response.data)
             .then(todos => dispatch({
                     type: GET_TODOS,
                     todos: todos
@@ -29,31 +31,36 @@ export function getTodos() {
 }
 
 export function addTodo(title) {
-    return {
-        type: ADD_TODO,
-        id: nextId++,
-        title
-    };
+    return axios.post('api/todos', {title: title})
+            .then(response => response.data)
+            .then(todo => ({
+                type: ADD_TODO,
+                todo: todo
+            }));
 }
 
 export function deleteTodo(id) {
-    return {
-        type: DELETE_TODO,
-        id
-    };
+    return axios.delete(`api/todos/${id}`)
+        .then(response => ({
+                type: DELETE_TODO,
+                id
+            }));
 }
 
 export function toggleTodo(id) {
-    return {
-        type: TOGGLE_TODO,
-        id
-    };
+    return axios.patch(`api/todos/${id}`)
+        .then(response => response.data)
+        .then(todo => ({
+            type: TOGGLE_TODO,
+            todo: todo
+        })); 
 }
 
 export function editTodo(id, title) {
-    return {
-        type: EDIT_TODO,
-        id,
-        title
-    };
+    return axios.put(`api/todos/${id}`, {title: title})
+        .then(response => response.data)
+        .then(todo => ({
+            type: ADD_TODO,
+            todo: todo
+        })); 
 }
